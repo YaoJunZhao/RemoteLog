@@ -1,0 +1,25 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <title>js加载问题</title>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script>
+        window.onload = function(){
+          $.get("http://127.0.0.1:8080/file", function(result){
+            var jsondata = $.parseJSON(result);
+            $.each(jsondata.FileList, function(index, content){
+              console.info("name "+content.Name);
+              console.info("filePath "+content.FilePath);
+              
+              $("#loglist").append("<p><a href=\"http:\/\/127.0.0.1:8080\/logfileindex?filename="+content.Name+"\">"+ content.Name +"</a></p>");
+            });
+          });
+        }
+    </script>  
+</head>  
+<body>  
+  <ul id="loglist">
+  </ul> 
+</body>  
+</html>
