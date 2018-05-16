@@ -71,7 +71,7 @@ func dealClient(conn net.Conn) {
 				// 写入文件
 				log := currentTime + " " + loginfo.MsgInfo
 
-				var filePath = "./LogDir/" + fileName
+				var filePath = "../logdir/" + fileName
 				var f *os.File
 				var err1 error
 				if !checkFileIsExist(filePath) {

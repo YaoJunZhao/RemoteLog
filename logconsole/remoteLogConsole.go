@@ -34,7 +34,7 @@ func getFilelist(path string) LogFile {
 }
 
 func enumFile(w http.ResponseWriter, r *http.Request) {
-	logFileInfo := getFilelist("../RemoteLog/LogDir/")
+	logFileInfo := getFilelist("../logdir/")
 	for i := 0; i < len(logFileInfo.FileList); i++ {
 		fmt.Println(logFileInfo.FileList[i].Name)
 	}
@@ -47,7 +47,7 @@ func getLogFile(w http.ResponseWriter, r *http.Request) {
 	if err == nil && len(queryForm["filename"]) > 0 {
 
 		//read log file
-		logdir := "../RemoteLog/LogDir/"
+		logdir := "../logdir/"
 		fileName := queryForm["filename"][0]
 		filePath := logdir + string(fileName)
 		fileinfo, err := os.Stat(filePath)
@@ -66,7 +66,7 @@ func getLogFile(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.Handle("/", http.FileServer(http.Dir("./tmp/static/")))
+	http.Handle("/", http.FileServer(http.Dir("../tmp/static/")))
 	http.HandleFunc("/file", enumFile)
 	http.HandleFunc("/logfileindex", getLogFile)
 	http.ListenAndServe(":8080", nil)
