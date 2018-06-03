@@ -25,7 +25,7 @@
 * 初始化
 ``` 后端服务器端口固定8752
 RemoteLog.init(MainActivity.this, "127.0.0.1", 8752, "helloworld");
-```RemoteLog.i(MainActivity.this, "TestRemote", "test MainActivity");
+```
 
 * 打log
 ```
