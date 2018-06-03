@@ -16,11 +16,24 @@
 ## 接入
 * android接入，由于是用content provider做的多进程，需要在manifest文件中添加provider
 
-``` provider
-<provider
-            android:name=".RemoteLog.RemoteLogProvider"
-            android:authorities="org.Randy.RemoteLogProvider" />
 ```
+<provider
+	android:name=".RemoteLog.RemoteLogProvider"
+	android:authorities="org.Randy.RemoteLogProvider" />
+```
+
+* 初始化
+``` 后端服务器端口固定8752
+RemoteLog.init(MainActivity.this, "127.0.0.1", 8752, "helloworld");
+```RemoteLog.i(MainActivity.this, "TestRemote", "test MainActivity");
+
+* 打log
+```
+RemoteLog.i(context, TAG, "test remotelog");
+```
+
+* 查看log，网页查看配置服务器ip:8080，例如：配置在本地，那么查看网址为：127.0.0.1:8080
+
 
 ## 未完待续
 * 添加进程名&线程id信息
