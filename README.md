@@ -22,7 +22,7 @@
             android:authorities="org.Randy.RemoteLogProvider" />
 ```
 
-##未完待续
+## 未完待续
 * 添加进程名&线程id信息
 * log导入到文件，文件上传到服务器
 * 添加log自动清理功能
