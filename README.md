@@ -14,6 +14,7 @@
 * 实时上报
 
 ## 接入
+### android端接入
 * android接入，由于是用content provider做的多进程，需要在manifest文件中添加provider
 
 ```
@@ -31,6 +32,11 @@ RemoteLog.init(MainActivity.this, "127.0.0.1", 8752, "helloworld");
 ```
 RemoteLog.i(context, TAG, "test remotelog");
 ```
+
+### 服务端配置
+* 启动log接受服务:go run receiveLogServer.go
+
+* 启动log查看平台服务：go run remoteLogConsole.go
 
 * 查看log，网页查看配置服务器ip:8080，例如：配置在本地，那么查看网址为：127.0.0.1:8080
 
