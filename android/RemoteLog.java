@@ -1,4 +1,13 @@
-package com.example.remotelog;
+package com.example.zhaoyaojun.test.RemoteLog;
+
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
+import android.net.Uri;
+
+import java.lang.ref.WeakReference;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public final class RemoteLog {
     /**
@@ -31,26 +40,30 @@ public final class RemoteLog {
      */
     public static final int ASSERT = 7;
 
-    private static boolean logEnable = false;
     private static boolean isInited = false;
 
-    private static TcpUtil tcp = new TcpUtil();
-
-    public static void init(String host, int port, String cuid) {
+    public static void init(Context ctx, String host, int port, String cuid) {
         if (!isInited) {
-            tcp.init(host, port, cuid);
+            ContentValues values = new ContentValues();
+            values.put("type", "init");
+            values.put("ip", host);
+            values.put("port", port);
+            values.put("cuid", cuid);
+            insertContent(ctx, values);
             isInited = true;
         }
     }
 
-    public static void destory() {
-        if (isInited && tcp != null) {
-            tcp.destory();
-        }
+    private static void insertContent(Context ctx, ContentValues values) {
+        ContentResolver resolver = ctx.getContentResolver();
+        Uri uri = Uri.parse("content://org.Randy.RemoteLogProvider");
+        resolver.insert(uri, values);
     }
 
-    public static void setRemoteLogEnable(boolean enable) {
-        logEnable = enable;
+    public static void destory() {
+        if (isInited) {
+
+        }
     }
 
     private static char priorityChar(int priority) {
@@ -72,13 +85,13 @@ public final class RemoteLog {
         }
     }
 
-    static int println_native(int priority, String tag, String msgs) {
-        if (!isInited || !logEnable) {
-            return -1;
-        }
+    static int println_native(Context ctx, int priority, String tag, String msgs) {
         String prefix = priorityChar(priority) + "/" + tag + ": ";
         for (String msg : msgs.split("\n")) {
-            tcp.write(new LogPackage(prefix + msg, LogPackage.Type_Log));
+            ContentValues values = new ContentValues();
+            values.put("type", "log");
+            values.put("logmsg", Utils.getCurrentTime() + " " + prefix + msg);
+            insertContent(ctx, values);
         }
         return 0;
     }
@@ -90,8 +103,8 @@ public final class RemoteLog {
      *            the class or activity where the log call occurs.
      * @param msg The message you would like logged.
      */
-    public static int v(String tag, String msg) {
-        return println_native(VERBOSE, tag, msg);
+    public static int v(Context ctx, String tag, String msg) {
+        return println_native(ctx, VERBOSE, tag, msg);
     }
 
     /**
@@ -101,8 +114,8 @@ public final class RemoteLog {
      *            the class or activity where the log call occurs.
      * @param msg The message you would like logged.
      */
-    public static int d(String tag, String msg) {
-        return println_native(DEBUG, tag, msg);
+    public static int d(Context ctx, String tag, String msg) {
+        return println_native(ctx, DEBUG, tag, msg);
     }
 
     /**
@@ -112,8 +125,8 @@ public final class RemoteLog {
      *            the class or activity where the log call occurs.
      * @param msg The message you would like logged.
      */
-    public static int i(String tag, String msg) {
-        return println_native(INFO, tag, msg);
+    public static int i(Context ctx, String tag, String msg) {
+        return println_native(ctx, INFO, tag, msg);
     }
 
     /**
@@ -123,8 +136,8 @@ public final class RemoteLog {
      *            the class or activity where the log call occurs.
      * @param msg The message you would like logged.
      */
-    public static int w(String tag, String msg) {
-        return println_native(WARN, tag, msg);
+    public static int w(Context ctx, String tag, String msg) {
+        return println_native(ctx, WARN, tag, msg);
     }
 
     /**
@@ -134,7 +147,8 @@ public final class RemoteLog {
      *            the class or activity where the log call occurs.
      * @param msg The message you would like logged.
      */
-    public static int e(String tag, String msg) {
-        return println_native(ERROR, tag, msg);
+    public static int e(Context ctx, String tag, String msg) {
+        return println_native(ctx, ERROR, tag, msg);
     }
+
 }

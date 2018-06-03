@@ -1,9 +1,10 @@
-package com.example.remotelog;
+package com.example.zhaoyaojun.test.RemoteLog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.InetAddress;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by zhaoyaojun on 2018/5/14 0014.

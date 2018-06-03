@@ -1,4 +1,4 @@
-package com.example.remotelog;
+package com.example.zhaoyaojun.test.RemoteLog;
 
 import android.widget.Toast;
 
@@ -27,7 +27,7 @@ public class TcpUtil {
 
     LinkedBlockingQueue logQueue = new LinkedBlockingQueue();
 
-    public void init(final String host, final int port, final String cuid) {
+    public void init(final String host, final int port, String cuid, String time) {
         if (isInited) {
             return;
         }
@@ -53,7 +53,7 @@ public class TcpUtil {
                 }
             }
         });
-        write(new LogPackage(cuid, LogPackage.Type_Cuid));
+        write(new LogPackage(time + "-" + cuid, LogPackage.Type_Cuid));
     }
 
     public void destory() {

@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"net"
 	"os"
-	"time"
 )
 
 func main() {
@@ -61,15 +60,14 @@ func dealClient(conn net.Conn) {
 			var loginfo LogInfo
 			json.Unmarshal(msg, &loginfo)
 
-			currentTime := time.Now().Format("2006-01-02 15:04:05")
 			if loginfo.MsgType == "2" {
 				//生成文件名
 				fileName = loginfo.MsgInfo
-				fileName = fileName + "-" + currentTime + ".log"
+				fileName = fileName + ".log"
 				//fmt.Println(fileName)
 			} else {
 				// 写入文件
-				log := currentTime + " " + loginfo.MsgInfo
+				log := loginfo.MsgInfo
 
 				var filePath = "../logdir/" + fileName
 				var f *os.File
